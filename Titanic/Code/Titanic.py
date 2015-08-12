@@ -4,9 +4,17 @@ X, Y = HelperMethods.ReadTrainingData("../Data/train.csv");
 
 # Generate plots
 
+print "Generating 2D plot";
 HelperMethods.Generate2DPlot(X, Y);
+
+print "Generating 3D plot";
 HelperMethods.Generate3DPlot(X, Y);
+
+print "Generating features plot";
 HelperMethods.GenerateFeatureWise2DPlot(X, Y);
+
+print "Generating clusters plot";
+HelperMethods.KMeansClustering(X, Y);
 
 #import pandas;
 #from sklearn.linear_model import LinearRegression;

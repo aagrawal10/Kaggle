@@ -4,6 +4,7 @@
 import pandas;
 import numpy as np;
 from sklearn.decomposition import PCA;
+from sklearn.cluster import KMeans;
 import matplotlib.pyplot as plt;
 from mpl_toolkits.mplot3d import Axes3D;
 from mpl_toolkits.mplot3d import proj3d;
@@ -93,4 +94,28 @@ def GenerateFeatureWise2DPlot(X, Y) :
 			plt.xlabel(item1);
 			plt.ylabel(item2);
 			plt.title(item1 + "vs" + item2);
-			plt.savefig("../Plots/" + item1 + "_" + item2 + ".png");
+			plt.savefig("../Plots/Features/" + item1 + "_" + item2 + ".png");
+
+# Since data looks like it is clustered apply k means and plot each cluster
+def KMeansClustering(X, Y):
+	noOfClusters = 6;
+	kmeans = KMeans(n_clusters = noOfClusters);
+	out = kmeans.fit_predict(X);
+	pca = ApplyPCA(X, 2);
+	colormap = np.array([ 'r', 'b', 'g', 'c', 'y', 'k']);
+
+	fig = plt.figure();
+	ax = fig.add_subplot(1, 1, 1);
+	ax.scatter(pca.components_[0], pca.components_[1], color=colormap[out]);
+	plt.savefig("../Plots/kmeans.png");
+
+	# Now generate 6 different plots
+	for c in range (noOfClusters):
+		indices = np.where (out == c);
+		x1 = pca.components_[0][indices];
+		x2 = pca.components_[1][indices];
+		cat = np.array(Y["Survived"])[indices];
+		fig2 = plt.figure();
+		ax2 = fig2.add_subplot(1, 1, 1);
+		ax2.scatter(x1, x2, color=colormap[cat]);
+		plt.savefig("../Plots/clusters/cluster" + str(c) + ".png");
