@@ -112,8 +112,8 @@ def KMeansClustering(X, Y):
 	# Now generate 6 different plots
 	for c in range (noOfClusters):
 		indices = np.where (out == c);
-		x1 = pca.components_[0][indices];
-		x2 = pca.components_[1][indices];
+		x1 = pca.components_[0][indices] / max(pca.components_[0][indices]);
+		x2 = pca.components_[1][indices] / max(pca.components_[0][indices]);
 		cat = np.array(Y["Survived"])[indices];
 		fig2 = plt.figure();
 		ax2 = fig2.add_subplot(1, 1, 1);
